@@ -2,6 +2,8 @@ package org.dorastudy.mallapi.service;
 
 import jakarta.transaction.Transactional;
 import org.dorastudy.mallapi.domain.Todo;
+import org.dorastudy.mallapi.dto.PageRequestDTO;
+import org.dorastudy.mallapi.dto.PageResponseDTO;
 import org.dorastudy.mallapi.dto.TodoDTO;
 
 @Transactional
@@ -13,6 +15,8 @@ public interface TodoService {
     void modify(TodoDTO dto);
 
     void remove(Long tno);
+
+    PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO);
 
     default TodoDTO entityToDTO(Todo todo) {
         return TodoDTO.builder()

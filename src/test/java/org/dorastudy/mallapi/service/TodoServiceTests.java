@@ -1,6 +1,7 @@
 package org.dorastudy.mallapi.service;
 
 import lombok.extern.log4j.Log4j2;
+import org.dorastudy.mallapi.dto.PageRequestDTO;
 import org.dorastudy.mallapi.dto.TodoDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,12 @@ public class TodoServiceTests {
                 .dueDate(LocalDate.of(2024, 7, 10))
                 .build();
         log.info(todoService.register(todoDTO));
+    }
+
+    @Test
+    public void testGetList() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(11).build();
+
+        log.info(todoService.getList(pageRequestDTO).toString());
     }
 }

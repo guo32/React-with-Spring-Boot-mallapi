@@ -77,8 +77,8 @@ public class TodoRepositoryTests {
         log.info(result.getContent()); // 전체 내용
     }
 
-    @Test
+    /*@Test
     public void testSearch1() {
         todoRepository.search1();
-    }
+    }*/
 }
