@@ -1,5 +1,43 @@
 package org.dorastudy.mallapi.dto;
 
-public class PageResponseDTO<E> {
+import lombok.Data;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+@Data
+public class PageResponseDTO<E> {
+    private List<E> dtoList;
+
+    private List<Integer> pageNumList;
+
+    private PageRequestDTO pageRequestDTO;
+
+    private boolean prev, next;
+
+    private int totalCount, prevPage, nextPage, totalPage, current;
+
+    public PageResponseDTO(List<E> dtoList, PageRequestDTO pageRequestDTO, long total) {
+        this.dtoList = dtoList;
+        this.pageRequestDTO = pageRequestDTO;
+        this.totalCount = (int) total;
+
+        // 끝 페이지(end) 계산
+        int end = (int) (Math.ceil(pageRequestDTO.getPage() / (double) pageRequestDTO.getSize())) * pageRequestDTO.getSize();
+        // 시작 페이지(start) 계산
+        int start = end - (pageRequestDTO.getSize() - 1);
+
+        int last = (int) (Math.ceil(totalCount / (double) pageRequestDTO.getSize()));
+
+        end = Math.min(end, last);
+
+        this.prev = start > 1;
+        this.next = totalCount > end * pageRequestDTO.getSize();
+
+        this.pageNumList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
+
+        this.prevPage = prev ? start - 1 : 0;
+        this.nextPage = next ? end + 1 : 0;
+    }
 }
