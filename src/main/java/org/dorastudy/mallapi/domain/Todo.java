@@ -20,6 +20,8 @@ public class Todo {
     @Column(length = 500, nullable = false)
     private String title;
 
+    private String writer;
+
     private String content;
 
     private boolean complete;

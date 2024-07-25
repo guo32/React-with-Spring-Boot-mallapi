@@ -30,9 +30,10 @@ public class TodoRepositoryTests {
     public void testInsert() {
         for (int i = 0; i < 100; i++) {
             Todo todo = Todo.builder()
+                    .writer("Me")
                     .title("Title.." + i)
                     .content("Content..." + i)
-                    .dueDate(LocalDate.of(2023, 12, 30))
+                    .dueDate(LocalDate.of(2024, 1, 31))
                     .build();
 
             Todo result = todoRepository.save(todo);
