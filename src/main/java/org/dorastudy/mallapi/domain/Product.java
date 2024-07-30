@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "imageList")
+@ToString(exclude = "imageList") // toString 호출 시 imageList 제외
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +40,10 @@ public class Product {
 
     public void changeName(String pname) {
         this.pname = pname;
+    }
+
+    public void changeDel(boolean delFlag) {
+        this.delFlag = delFlag;
     }
 
     public void addImage(ProductImage image) {
