@@ -2,7 +2,10 @@ package org.dorastudy.mallapi.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.dorastudy.mallapi.dto.PageRequestDTO;
+import org.dorastudy.mallapi.dto.PageResponseDTO;
 import org.dorastudy.mallapi.dto.ProductDTO;
+import org.dorastudy.mallapi.service.ProductService;
 import org.dorastudy.mallapi.util.CustomFileUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,7 @@ import java.util.Map;
 @RequestMapping("/api/products")
 public class ProductController {
     private final CustomFileUtil fileUtil;
+    private final ProductService productService;
 
     @PostMapping("/")
     public Map<String, String> register(ProductDTO productDTO) {
@@ -33,5 +37,10 @@ public class ProductController {
     @GetMapping("/view/{fileName}")
     public ResponseEntity<Resource> viewFileGET(@PathVariable("fileName") String fileName) {
         return fileUtil.getFile(fileName);
+    }
+
+    @GetMapping("/list")
+    public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO) {
+        return productService.getList(pageRequestDTO);
     }
 }
