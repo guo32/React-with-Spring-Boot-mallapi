@@ -24,7 +24,7 @@ public class ProductController {
         log.info("register: {}", productDTO);
         List<MultipartFile> files = productDTO.getFiles();
         List<String> uploadedFileNames = fileUtil.saveFiles(files);
-        productDTO.setUploadedFileNames(uploadedFileNames);
+        productDTO.setUploadFileNames(uploadedFileNames);
         log.info(uploadedFileNames);
 
         return Map.of("RESULT", "SUCCESS");
