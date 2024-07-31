@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,12 +71,42 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product).getPno();
     }
 
+    @Override
+    public ProductDTO get(Long pno) {
+        Optional<Product> result = productRepository.findById(pno);
+        Product product = result.orElseThrow();
+        return entityToDto(product);
+    }
+
+    private ProductDTO entityToDto(Product product) {
+        ProductDTO productDTO = ProductDTO.builder()
+                .pno(product.getPno())
+                .pname(product.getPname())
+                .pdescription(product.getPdescription())
+                .price(product.getPrice())
+                .delFlag(product.isDelFlag())
+                .build();
+        List<ProductImage> imageList = product.getImageList();
+
+        if (imageList == null || imageList.isEmpty()) {
+            return productDTO;
+        }
+
+        List<String> fileNameList = imageList.stream().map(productImage ->
+                productImage.getFilaName()).toList();
+
+        productDTO.setUploadFileNames(fileNameList);
+
+        return productDTO;
+    }
+
     private Product dtoToEntity(ProductDTO productDTO) {
         Product product = Product.builder()
                 .pno(productDTO.getPno())
                 .pname(productDTO.getPname())
                 .pdescription(productDTO.getPdescription())
                 .price(productDTO.getPrice())
+                .delFlag(productDTO.isDelFlag())
                 .build();
 
         List<String> uploadFileNames = productDTO.getUploadFileNames();
