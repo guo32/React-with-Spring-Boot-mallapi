@@ -76,7 +76,7 @@ public class ProductController {
         // keep files
         List<String> uploadedFileNames = productDTO.getUploadFileNames();
 
-        if(currentUploadFileNames != null && !currentUploadFileNames.isEmpty()) {
+        if (currentUploadFileNames != null && !currentUploadFileNames.isEmpty()) {
             uploadedFileNames.addAll(currentUploadFileNames);
         }
 
@@ -88,6 +88,15 @@ public class ProductController {
                     oldFileNames.stream().filter(fileName -> uploadedFileNames.indexOf(fileName) == -1).collect(Collectors.toList());
             fileUtil.deleteFiles(removeFiles);
         }
+
+        return Map.of("RESULT", "SUCCESS");
+    }
+
+    @DeleteMapping("/{pno}")
+    public Map<String, String> remove(@PathVariable("pno") Long pno) {
+        List<String> oldFileNames = productService.get(pno).getUploadFileNames();
+        productService.remove(pno);
+        fileUtil.deleteFiles(oldFileNames);
 
         return Map.of("RESULT", "SUCCESS");
     }
