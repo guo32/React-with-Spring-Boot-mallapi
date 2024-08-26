@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 import org.dorastudy.mallapi.dto.MemberDTO;
+import org.dorastudy.mallapi.util.JWTUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -26,8 +27,12 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 
         // === Token 추가 (추가 정보)
         Map<String, Object> claims = memberDTO.getClaims();
-        claims.put("accessToken", "");
-        claims.put("refreshToken", "");
+
+        String accessToken = JWTUtil.generateToken(claims, 10);
+        String refreshToken = JWTUtil.generateToken(claims, 60*24);
+
+        claims.put("accessToken", accessToken);
+        claims.put("refreshToken", refreshToken);
 
         // === json 생성
         Gson gson = new Gson();
