@@ -1,4 +1,4 @@
-package org.dorastudy.mallapi.handler;
+package org.dorastudy.mallapi.security.handler;
 
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
