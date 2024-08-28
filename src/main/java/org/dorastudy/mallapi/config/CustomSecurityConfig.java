@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.dorastudy.mallapi.security.filter.JWTCheckFilter;
 import org.dorastudy.mallapi.security.handler.APILoginFailHandler;
 import org.dorastudy.mallapi.security.handler.APILoginSuccessHandler;
+import org.dorastudy.mallapi.security.handler.CustomAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -46,6 +47,10 @@ public class CustomSecurityConfig {
         });
 
         http.addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.exceptionHandling(config -> {
+            config.accessDeniedHandler(new CustomAccessDeniedHandler());
+        });
 
         return http.build();
     }
